@@ -1,5 +1,7 @@
 package com.divyansh.quoteoftheday
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,9 +12,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,6 +33,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun QuoteApp() {
+
+    val context = LocalContext.current
 
     val quotes = listOf(
 
@@ -143,7 +147,35 @@ fun QuoteApp() {
                 ) {
                     Text("❤")
                 }
+
+                Button(
+                    onClick = {
+
+                        shareQuote(
+                            context,
+                            "${currentQuote.first} - ${currentQuote.second}"
+                        )
+                    },
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+
+                    Text("Share")
+                }
             }
         }
     }
+}
+
+fun shareQuote(context: Context, quote: String) {
+
+    val sendIntent = Intent().apply {
+
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, quote)
+        type = "text/plain"
+    }
+
+    val shareIntent = Intent.createChooser(sendIntent, null)
+
+    context.startActivity(shareIntent)
 }
