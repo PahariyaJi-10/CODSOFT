@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,10 +63,13 @@ fun QuoteApp() {
     var currentQuote by remember {
         mutableStateOf(quotes.random())
     }
+
     var favorites by remember {
         mutableStateOf(setOf<Pair<String, String>>())
     }
+
     val isFavorite = favorites.contains(currentQuote)
+
     val gradient = Brush.verticalGradient(
         colors = listOf(
             Color(0xFF0F2027),
@@ -108,22 +112,34 @@ fun QuoteApp() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Text(
-                        text = "\"${currentQuote.first}\"",
-                        color = Color.White,
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Center,
-                        lineHeight = 34.sp
-                    )
+                    Crossfade(
+                        targetState = currentQuote.first,
+                        label = ""
+                    ) { quote ->
+
+                        Text(
+                            text = "\"$quote\"",
+                            color = Color.White,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center,
+                            lineHeight = 34.sp
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    Text(
-                        text = "- ${currentQuote.second}",
-                        color = Color.LightGray,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                    Crossfade(
+                        targetState = currentQuote.second,
+                        label = ""
+                    ) { author ->
+
+                        Text(
+                            text = "- $author",
+                            color = Color.LightGray,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             }
 
@@ -139,6 +155,7 @@ fun QuoteApp() {
                     },
                     shape = RoundedCornerShape(16.dp)
                 ) {
+
                     Text("New Quote")
                 }
 
