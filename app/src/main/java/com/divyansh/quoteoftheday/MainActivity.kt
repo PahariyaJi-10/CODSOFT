@@ -62,7 +62,10 @@ fun QuoteApp() {
     var currentQuote by remember {
         mutableStateOf(quotes.random())
     }
-
+    var favorites by remember {
+        mutableStateOf(setOf<Pair<String, String>>())
+    }
+    val isFavorite = favorites.contains(currentQuote)
     val gradient = Brush.verticalGradient(
         colors = listOf(
             Color(0xFF0F2027),
@@ -142,9 +145,23 @@ fun QuoteApp() {
                 Button(
                     onClick = {
 
+                        favorites =
+                            if (isFavorite) {
+                                favorites - currentQuote
+                            } else {
+                                favorites + currentQuote
+                            }
                     },
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor =
+                            if (isFavorite)
+                                Color.Red
+                            else
+                                MaterialTheme.colorScheme.primary
+                    )
                 ) {
+
                     Text("❤")
                 }
 
