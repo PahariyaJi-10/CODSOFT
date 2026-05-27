@@ -39,25 +39,45 @@ fun QuoteApp() {
 
     val quotes = listOf(
 
-        Pair(
-            "Dream big and dare to fail.",
-            "Norman Vaughan"
-        ),
+        Pair("Dream big and dare to fail.", "Norman Vaughan"),
 
-        Pair(
-            "Push yourself because no one else will.",
-            "Unknown"
-        ),
+        Pair("Push yourself because no one else will.", "Unknown"),
 
-        Pair(
-            "Success is not final, failure is not fatal.",
-            "Winston Churchill"
-        ),
+        Pair("Success is not final, failure is not fatal.", "Winston Churchill"),
 
-        Pair(
-            "Stay positive, work hard, make it happen.",
-            "Unknown"
-        )
+        Pair("Stay positive, work hard, make it happen.", "Unknown"),
+
+        Pair("Believe you can and you're halfway there.", "Theodore Roosevelt"),
+
+        Pair("Do something today that your future self will thank you for.", "Unknown"),
+
+        Pair("Great things never come from comfort zones.", "Unknown"),
+
+        Pair("Don’t stop until you’re proud.", "Unknown"),
+
+        Pair("Small steps every day lead to big results.", "Unknown"),
+
+        Pair("Your only limit is your mind.", "Unknown"),
+
+        Pair("Discipline is stronger than motivation.", "Unknown"),
+
+        Pair("Success starts with self-belief.", "Unknown"),
+
+        Pair("Focus on the goal, not the obstacles.", "Unknown"),
+
+        Pair("Work hard in silence, let success make the noise.", "Frank Ocean"),
+
+        Pair("Consistency is the key to success.", "Unknown"),
+
+        Pair("The harder you work, the luckier you get.", "Gary Player"),
+
+        Pair("Don’t watch the clock; do what it does. Keep going.", "Sam Levenson"),
+
+        Pair("Failure is the opportunity to begin again more intelligently.", "Henry Ford"),
+
+        Pair("Everything you can imagine is real.", "Pablo Picasso"),
+
+        Pair("Doubt kills more dreams than failure ever will.", "Suzy Kassem")
     )
 
     var currentQuote by remember {
