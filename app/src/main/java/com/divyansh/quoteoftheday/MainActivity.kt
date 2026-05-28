@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -122,46 +124,56 @@ fun QuoteApp(
 
     val gradient = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFF0F2027),
-            Color(0xFF203A43),
-            Color(0xFF2C5364)
+            Color(0xFF141E30),
+            Color(0xFF243B55),
+            Color(0xFF0F2027)
         )
     )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(gradient),
-
-        contentAlignment = Alignment.Center
+            .background(gradient)
     ) {
 
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(24.dp)
+            verticalArrangement = Arrangement.Center
         ) {
 
             Text(
-                text = "Quote of the Day",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
+                text = "QuoteVerse",
+                fontSize = 38.sp,
+                fontWeight = FontWeight.ExtraBold,
                 color = Color.White
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "Daily Inspiration",
+                fontSize = 18.sp,
+                color = Color.LightGray
+            )
+
+            Spacer(modifier = Modifier.height(50.dp))
 
             Card(
+                modifier = Modifier.fillMaxWidth(),
+
+                shape = RoundedCornerShape(32.dp),
+
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White.copy(alpha = 0.12f)
-                ),
-
-                shape = RoundedCornerShape(28.dp),
-
-                modifier = Modifier.fillMaxWidth()
+                )
             ) {
 
                 Column(
-                    modifier = Modifier.padding(30.dp),
+                    modifier = Modifier.padding(32.dp),
 
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -173,14 +185,15 @@ fun QuoteApp(
 
                         Text(
                             text = "\"$quote\"",
-                            color = Color.White,
-                            fontSize = 24.sp,
+                            fontSize = 28.sp,
+                            lineHeight = 40.sp,
                             textAlign = TextAlign.Center,
-                            lineHeight = 34.sp
+                            color = Color.White,
+                            fontWeight = FontWeight.Medium
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
                     Crossfade(
                         targetState = currentQuote.second,
@@ -189,51 +202,51 @@ fun QuoteApp(
 
                         Text(
                             text = "- $author",
-                            color = Color.LightGray,
                             fontSize = 18.sp,
+                            color = Color.LightGray,
                             fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(35.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
-                Button(
+                ElevatedButton(
                     onClick = {
                         currentQuote = quotes.random()
                     },
 
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(18.dp)
                 ) {
 
-                    Text("New Quote")
+                    Text("New")
                 }
 
-                Button(
+                ElevatedButton(
                     onClick = {
                         onFavoriteToggle(currentQuote)
                     },
 
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(18.dp),
 
-                    colors = ButtonDefaults.buttonColors(
+                    colors = ButtonDefaults.elevatedButtonColors(
                         containerColor =
                             if (isFavorite)
                                 Color.Red
                             else
-                                MaterialTheme.colorScheme.primary
+                                Color.DarkGray
                     )
                 ) {
 
                     Text("❤")
                 }
 
-                Button(
+                ElevatedButton(
                     onClick = {
 
                         shareQuote(
@@ -242,21 +255,21 @@ fun QuoteApp(
                         )
                     },
 
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(18.dp)
                 ) {
 
                     Text("Share")
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
+            OutlinedButton(
                 onClick = {
                     onViewFavorites()
                 },
 
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(18.dp)
             ) {
 
                 Text("View Favorites")
@@ -271,54 +284,82 @@ fun FavoritesScreen(
     onBack: () -> Unit
 ) {
 
-    Column(
+    val gradient = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF0F2027),
+            Color(0xFF203A43),
+            Color(0xFF2C5364)
+        )
+    )
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp)
+            .background(gradient)
     ) {
 
-        Button(
-            onClick = {
-                onBack()
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
         ) {
 
-            Text("Back")
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "Favorite Quotes",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        favorites.forEach { quote ->
-
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+            OutlinedButton(
+                onClick = {
+                    onBack()
+                }
             ) {
 
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
+                Text("Back")
+            }
 
-                    Text(
-                        text = quote.first,
-                        fontSize = 18.sp
-                    )
+            Spacer(modifier = Modifier.height(24.dp))
 
-                    Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Favorite Quotes",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
 
-                    Text(
-                        text = "- ${quote.second}",
-                        color = Color.Gray
-                    )
+            Spacer(modifier = Modifier.height(20.dp))
+
+            LazyColumn {
+
+                items(favorites.toList()) { quote ->
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 10.dp),
+
+                        shape = RoundedCornerShape(24.dp),
+
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White.copy(alpha = 0.12f)
+                        )
+                    ) {
+
+                        Column(
+                            modifier = Modifier.padding(20.dp)
+                        ) {
+
+                            Text(
+                                text = quote.first,
+                                color = Color.White,
+                                fontSize = 20.sp,
+                                lineHeight = 30.sp
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            Text(
+                                text = "- ${quote.second}",
+                                color = Color.LightGray,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
                 }
             }
         }
